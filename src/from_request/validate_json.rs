@@ -17,7 +17,7 @@ where
     Json<T>: FromRequest<S, B, Rejection = JsonRejection>,
     B: Send + 'static,
 {
-    type Rejection =  (StatusCode, String);
+    type Rejection = (StatusCode, String);
 
     async fn from_request(req: Request<B>, state: &S) -> Result<Self, Self::Rejection> {
         let result = Json::<T>::from_request(req, state).await;
@@ -28,31 +28,10 @@ where
                 }
                 Ok(ValidatedJson(value))
             }
-            Err(_) => {
-                Err((StatusCode::BAD_REQUEST, "错误:Json文档缺少参数或格式不正确".to_string()))
-            },
-        }
-    }
-}
-/*
-#[derive(Debug)]
-pub enum ServerError {
-    //#[error(transparent)]
-    ValidationError(validator::ValidationErrors),
-
-    //#[error(transparent)]
-    AxumJsonRejection(JsonRejection),
-}
-
-impl IntoResponse for ServerError {
-    fn into_response(self) -> Response {
-        match self {
-            ServerError::ValidationError(_) => {
-                let message = format!("Input validation error: [{}]", self).replace('\n', ", ");
-                (StatusCode::BAD_REQUEST, message)
+            Err(e) => {
+                println!("{}", e);
+                Err((StatusCode::BAD_REQUEST, e.to_string()))
             }
-            ServerError::AxumJsonRejection(_) => (StatusCode::BAD_REQUEST, self.to_string()),
         }
-        .into_response()
     }
-} */
+}

@@ -1,8 +1,7 @@
 use axum::{
     async_trait,
-    extract::{rejection::JsonRejection, FromRequest, Query},
-    http::{Request, StatusCode},
-    Json,
+    extract::{FromRequestParts},
+    http::{request::Parts, StatusCode},
 };
 use serde::de::DeserializeOwned;
 use validator::Validate;
@@ -10,50 +9,27 @@ use validator::Validate;
 pub struct ValidatedQuery<T>(pub T);
 
 #[async_trait]
-impl<T, S, B> FromRequest<S, B> for ValidatedQuery<T>
+impl<T, S> FromRequestParts<S> for ValidatedQuery<T>
 where
-    T: DeserializeOwned + Validate,
+    T: DeserializeOwned + Validate + Send + Sync,
     S: Send + Sync,
-    Json<T>: FromRequest<S, B, Rejection = JsonRejection>,
-    B: Send + 'static,
 {
-    type Rejection =  (StatusCode, String);
+    type Rejection = (StatusCode, String);
 
-    async fn from_request(req: Request<B>, state: &S) -> Result<Self, Self::Rejection> {
-        let result = Query::<T>::from_request(req, state).await;
-        match result {
-            Ok(Query(value)) => {
-                if let Err(err) = value.validate() {
+    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
+        let query = parts.uri.query().unwrap_or_default();
+        let value = serde_urlencoded::from_str::<T>(query);
+        match value {
+            Ok(v) => {
+                if let Err(err) = v.validate() {
                     return Err((StatusCode::BAD_REQUEST, err.to_string()));
                 }
-                Ok(ValidatedQuery(value))
+                Ok(ValidatedQuery(v))
             }
             Err(e) => {
-                println!("{}",e);
-                Err((StatusCode::BAD_REQUEST, "错误:查询字符串缺少参数或格式不正确".to_string()))
-            },
-        }
-    }
-}
-/*
-#[derive(Debug)]
-pub enum ServerError {
-    //#[error(transparent)]
-    ValidationError(validator::ValidationErrors),
-
-    //#[error(transparent)]
-    AxumJsonRejection(JsonRejection),
-}
-
-impl IntoResponse for ServerError {
-    fn into_response(self) -> Response {
-        match self {
-            ServerError::ValidationError(_) => {
-                let message = format!("Input validation error: [{}]", self).replace('\n', ", ");
-                (StatusCode::BAD_REQUEST, message)
+                println!("{}", e);
+                Err((StatusCode::BAD_REQUEST, e.to_string()))
             }
-            ServerError::AxumJsonRejection(_) => (StatusCode::BAD_REQUEST, self.to_string()),
         }
-        .into_response()
     }
-} */
+}
