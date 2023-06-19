@@ -19,7 +19,7 @@ where
 {
     type Rejection = (StatusCode, String);
 
-    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
         let result = parts.extensions.get::<Arc<Claims>>();
         match result {
             Some(value) => Ok(User(value.sub.clone())),
