@@ -1,8 +1,8 @@
 
-use axum::{http::Request, middleware::Next, response::Response};
+use axum::{extract::Request, middleware::Next, response::Response};
 use chrono::{Utc, Local};
 
-pub async fn log<Body>(request: Request<Body>, next: Next<Body>) -> Response {
+pub async fn log(request: Request, next: Next) -> Response {
     // 获取当前时间
     let now = Utc::now();
 

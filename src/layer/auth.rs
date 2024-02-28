@@ -5,8 +5,9 @@ use std::{
 
 use crate::jwt::JWT;
 use axum::{
-    http::{Request, StatusCode},
-    middleware::{Next},
+    http::{StatusCode},
+    middleware::Next,
+    extract::{Request},
     response::{IntoResponse, Response},
 };
 
@@ -14,7 +15,7 @@ use axum::{
 // 这里实现一request 接收器 ,这里可以使用from_extractor::<Authlayer>()转成中间件
 
 // 这里使用fn来实现一个中间件,使用from_fn转
-pub async fn auth<Body>(secret: &str, mut request: Request<Body>, next: Next<Body>) -> Response {
+pub async fn auth(secret: &str, mut request: Request, next: Next) -> Response {
     let headers = request.headers();
     let auth_header = headers.get("Authorization");
     let token = match auth_header {
