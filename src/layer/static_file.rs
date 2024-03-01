@@ -4,7 +4,7 @@ use rust_embed::RustEmbed;
 #[derive(RustEmbed)]
 //export CARGO_STATIC_DIR=/Users/gufei/Desktop/rust/mp/mp_server/static
 #[folder = "/Users/gufei/Desktop/rust/mp/mp_server/static"]
-//#[folder = "static/"]
+//#[folder = "$CARGO_MANIFEST_DIR/static/"]
 pub struct Asset;
 pub async fn static_file(request: Request, next: Next) -> Response {
     //include_str!()
