@@ -1,6 +1,5 @@
-
 use axum::{extract::Request, middleware::Next, response::Response};
-use chrono::{Utc, Local};
+use chrono::{Local, Utc};
 
 pub async fn log(request: Request, next: Next) -> Response {
     // 获取当前时间

@@ -1,5 +1,6 @@
-use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
+use jsonwebtoken::{decode, DecodingKey, encode, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
+
 #[derive(Serialize, Deserialize)]
 pub struct Claims {
     /// 该JWT的主题，即它所代表的实体，可以是用户、设备或其他任何东西。

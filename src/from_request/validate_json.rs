@@ -1,11 +1,12 @@
 use axum::{
     async_trait,
-    extract::{rejection::JsonRejection, FromRequest,Request},
-    http::{StatusCode},
+    extract::{FromRequest, rejection::JsonRejection, Request},
+    http::StatusCode,
     Json,
 };
 use serde::de::DeserializeOwned;
 use validator::Validate;
+
 /// 自定义一个提取器,在内部实现数据验证
 pub struct ValidatedJson<T>(pub T);
 

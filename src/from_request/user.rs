@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     async_trait,
-    extract::{FromRequestParts},
+    extract::FromRequestParts,
     http::{request::Parts, StatusCode},
 };
 

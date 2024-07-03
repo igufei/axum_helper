@@ -1,10 +1,11 @@
 use axum::{
     async_trait,
-    extract::{FromRequestParts},
+    extract::FromRequestParts,
     http::{request::Parts, StatusCode},
 };
 use serde::de::DeserializeOwned;
 use validator::Validate;
+
 /// 自定义一个提取器,在内部实现数据验证
 pub struct ValidatedQuery<T>(pub T);
 

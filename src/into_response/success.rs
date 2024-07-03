@@ -1,8 +1,6 @@
-use axum::{response::IntoResponse, http::StatusCode};
+use axum::{http::StatusCode, response::IntoResponse};
 use serde::Serialize;
 use serde_json::json;
-
-
 
 pub struct Success<T>(pub T);
 impl<T> IntoResponse for Success<T>

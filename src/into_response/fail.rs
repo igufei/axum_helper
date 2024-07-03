@@ -1,5 +1,4 @@
-use axum::{response::IntoResponse, http::StatusCode};
-
+use axum::{http::StatusCode, response::IntoResponse};
 
 pub struct Fail(pub &'static str);
 impl IntoResponse for Fail
