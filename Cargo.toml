@@ -12,7 +12,7 @@ axum = {version="0.7.5", features = ["json"]}
 tokio = { version="1.38.0", features = ["full"]}
 #数据序列化
 serde = { version="1.0.203", features = ["derive"] }
-serde_json = "1.0.117"
+serde_json = "1.0.120"
 serde_urlencoded ="0.7.1"
 # 数据验证
 validator = { version = "0.18.1", features = ["derive"] }
@@ -24,4 +24,4 @@ chrono = "0.4.38"
 #资源内嵌
 rust-embed = {version = "8.4.0",features = ["interpolate-folder-path"]}
 #按文件扩展名猜测MIME/MediaType。
-mime_guess ="2.0.4"
+mime_guess ="2.0.5"

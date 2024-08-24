@@ -29,7 +29,7 @@ where
             }
             Err(e) => {
                 println!("{}", e);
-                Err((StatusCode::BAD_REQUEST, e.to_string()))
+                Err((StatusCode::BAD_REQUEST, "参数验证失败".to_string()))
             }
         }
     }

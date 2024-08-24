@@ -1,6 +1,6 @@
 use axum::{
     async_trait,
-    extract::{FromRequest, rejection::JsonRejection, Request},
+    extract::{rejection::JsonRejection, FromRequest, Request},
     http::StatusCode,
     Json,
 };
@@ -28,9 +28,8 @@ where
                 }
                 Ok(ValidatedJson(value))
             }
-            Err(e) => {
-                println!("{}", e);
-                Err((StatusCode::BAD_REQUEST, e.to_string()))
+            Err(_) => {
+                Err((StatusCode::BAD_REQUEST, "参数验证失败".to_string()))
             }
         }
     }

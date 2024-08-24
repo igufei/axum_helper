@@ -1,4 +1,9 @@
-use axum::{extract::Request, http::header, middleware::Next, response::{IntoResponse, Response}};
+use axum::{
+    extract::Request,
+    http::header,
+    middleware::Next,
+    response::{IntoResponse, Response},
+};
 use rust_embed::RustEmbed;
 
 #[derive(RustEmbed)]
