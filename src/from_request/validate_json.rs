@@ -28,9 +28,7 @@ where
                 }
                 Ok(ValidatedJson(value))
             }
-            Err(_) => {
-                Err((StatusCode::BAD_REQUEST, "参数验证失败".to_string()))
-            }
+            Err(_) => Err((StatusCode::BAD_REQUEST, "参数验证失败".to_string())),
         }
     }
 }

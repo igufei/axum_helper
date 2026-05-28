@@ -28,7 +28,7 @@ where
                 Ok(ValidatedQuery(v))
             }
             Err(e) => {
-                println!("{}", e);
+                println!("参数验证失败:{}", e);
                 Err((StatusCode::BAD_REQUEST, "参数验证失败".to_string()))
             }
         }
