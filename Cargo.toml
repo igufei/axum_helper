@@ -8,7 +8,7 @@ lto = true
 codegen-units = 1
 panic = 'abort'
 [dependencies]
-axum = {version="0.7.5", features = ["json"]}
+axum = {version="0.7.5", features = ["json", "macros"]}
 tokio = { version="1.38.0", features = ["full"]}
 #数据序列化
 serde = { version="1.0.203", features = ["derive"] }
